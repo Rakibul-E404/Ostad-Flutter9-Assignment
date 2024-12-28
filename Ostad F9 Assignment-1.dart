@@ -1,3 +1,7 @@
+//**User input code here
+
+/*
+
 import 'dart:io';
 
 abstract class Role {
@@ -117,4 +121,96 @@ void main() {
       print('Invalid role entered.');
     }
   }
+}
+
+*/
+
+//** Default Set value */
+
+import 'dart:io';
+
+abstract class Role {
+  void displayRole();
+}
+
+class StudentRole implements Role {
+  @override
+  void displayRole() {
+    print('Role: Student');
+  }
+}
+
+class TeacherRole implements Role {
+  @override
+  void displayRole() {
+    print('Role: Teacher');
+  }
+}
+
+class Person implements Role {
+  String name;
+  int age;
+  String address;
+  Role role;
+
+  Person(this.name, this.age, this.address, this.role);
+
+  @override
+  void displayRole() {
+    role.displayRole();
+  }
+
+  void displayPersonDetails() {
+    print('Name: $name');
+    print('Age: $age');
+    print('Address: $address');
+  }
+}
+
+class Student extends Person {
+  List<int> courseScores;
+
+  Student(String name, int age, String address, this.courseScores)
+      : super(name, age, address, StudentRole());
+
+  double calculateAverageScore() {
+    int sum = courseScores.reduce((a, b) => a + b);
+    return sum / courseScores.length;
+  }
+
+  @override
+  void displayPersonDetails() {
+    super.displayPersonDetails();
+    print('Average Score: ${calculateAverageScore().toStringAsFixed(1)}');
+  }
+}
+
+class Teacher extends Person {
+  List<String> coursesTaught;
+
+  Teacher(String name, int age, String address, this.coursesTaught)
+      : super(name, age, address, TeacherRole());
+
+  @override
+  void displayPersonDetails() {
+    super.displayPersonDetails();
+    print('Courses Taught:');
+    for (var course in coursesTaught) {
+      print('- $course');
+    }
+  }
+}
+
+void main() {
+  Student defaultStudent =
+      Student('Rakibul', 20, 'Mirpur, Dhaka-1216', [85, 90, 82]);
+  defaultStudent.displayRole();
+  defaultStudent.displayPersonDetails();
+
+  print('');
+
+  Teacher defaultTeacher =
+      Teacher('Alam', 45, 'Mirpur, Dhaka', ['Math', 'English', 'Bangla']);
+  defaultTeacher.displayRole();
+  defaultTeacher.displayPersonDetails();
 }
